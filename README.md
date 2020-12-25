@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD041 -->
 | Repository Status | ESPHome Community |
 | :--- | :--- |
-| [![last commit time][github-last-commit]][github-master] [![GitHub Activity][commits-shield]][commits] | [![Discord][discord-shield]][discord] [![Community Forum][discourse-shield]][discourse]  |
+| [![last commit time][github-last-commit]][github-main] [![GitHub Activity][commits-shield]][commits] | [![Discord][discord-shield]][discord] [![Community Forum][discourse-shield]][discourse]  |
 
 # My ESPHome Devices
 
@@ -90,9 +90,9 @@ data, I can create automations markto alert us when the wash cycle or the laser 
 These are Sonoff POWs and Sonoff S31s. The code attempts to recreate their functionality.
 
 [commits-shield]: https://img.shields.io/github/commit-activity/m/mikepowell/esphome-config.svg
-[commits]: https://github.com/mikepowell/esphome-config/commits/master
+[commits]: https://github.com/mikepowell/esphome-config/commits/main
 [github-last-commit]: https://img.shields.io/github/last-commit/mikepowell/esphome-config.svg?style=plasticr
-[github-master]: https://github.com/mikepowell/esphome-config/commits/master
+[github-main]: https://github.com/mikepowell/esphome-config/commits/main
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?logo=discord&color=7289da
 [discord]: https://discord.gg/A7SaaSC
 [discourse-shield]: https://img.shields.io/discourse/topics?color=46B4ED&label=community&logo=discourse&logoColor=46B4ED&server=https%3A%2F%2Fcommunity.home-assistant.io
