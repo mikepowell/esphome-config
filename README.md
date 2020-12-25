@@ -3,7 +3,11 @@
 | :--- |
 | [![last commit time][github-last-commit]][github-main] [![GitHub Activity][commits-shield]][commits] |
 
-# My ESPHome Devices
+# My ESPHome Configuration
+
+Forked from Brian Hanifin's [wonderfully organized ESPHome configuration][forked-from].
+I'm just getting my repo set up so there are still a lot of Brian's devices that won't
+be included here once I'm finished.
 
 Configuration files for my ESP8266 / ESP32 plugs and boards for use with Home Assistant.
 I have made heavy use of `!include` files to limit code duplication. This allows me to
@@ -93,6 +97,8 @@ These are Sonoff POWs and Sonoff S31s. The code attempts to recreate their funct
 [commits]: https://github.com/mikepowell/esphome-config/commits/main
 [github-last-commit]: https://img.shields.io/github/last-commit/mikepowell/esphome-config.svg?style=plasticr
 [github-main]: https://github.com/mikepowell/esphome-config/commits/main
+
+[forked-from]: https://github.com/brianhanifin/esphome-config
 
 [esphome-ble-hub]:https://esphome.io/components/esp32_ble_tracker.html
 [esphome-sonoff4pro]:https://esphome.io/devices/sonoff_4ch.html
