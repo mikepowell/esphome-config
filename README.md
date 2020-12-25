@@ -89,14 +89,14 @@ data, I can create automations markto alert us when the wash cycle or the laser 
 
 These are Sonoff POWs and Sonoff S31s. The code attempts to recreate their functionality.
 
-[commits-shield]: https://img.shields.io/github/commit-activity/m/brianhanifin/esphome-config.svg
-[commits]: https://github.com/brianhanifin/esphome-config/commits/master
-[github-last-commit]: https://img.shields.io/github/last-commit/BrianHanifin/esphome-config.svg?style=plasticr
-[github-master]: https://github.com/BrianHanifin/esphome-config/commits/master
+[commits-shield]: https://img.shields.io/github/commit-activity/m/mikepowell/esphome-config.svg
+[commits]: https://github.com/mikepowell/esphome-config/commits/master
+[github-last-commit]: https://img.shields.io/github/last-commit/mikepowell/esphome-config.svg?style=plasticr
+[github-master]: https://github.com/mikepowell/esphome-config/commits/master
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?logo=discord&color=7289da
 [discord]: https://discord.gg/A7SaaSC
 [discourse-shield]: https://img.shields.io/discourse/topics?color=46B4ED&label=community&logo=discourse&logoColor=46B4ED&server=https%3A%2F%2Fcommunity.home-assistant.io
-[discourse]: https://community.home-assistant.io/u/brianhanifin/summary
+[discourse]: https://community.home-assistant.io/u/mikepowell/summary
 
 [esphome-ble-hub]:https://esphome.io/components/esp32_ble_tracker.html
 [esphome-sonoff4pro]:https://esphome.io/devices/sonoff_4ch.html
