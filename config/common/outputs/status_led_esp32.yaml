@@ -1,0 +1,4 @@
+platform: ledc
+pin: $led_status_gpio
+inverted: false
+id: _status_led

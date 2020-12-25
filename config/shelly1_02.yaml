@@ -1,0 +1,138 @@
+---
+# Shelly 2 Power Module
+# Location: Upstairs Bathroom
+#
+substitutions:
+  project: Upstairs Bathroom Exhaust
+  id: shelly1_02
+  humidity_difference_threshold: "7.5"   # Difference between house humidity and bathroom humidity.
+  countdown_duration: "600"               # 600 seconds = 10 minutes
+
+  <<: !include common/substitutions/gpio/shelly1.yaml
+
+<<: !include common/esphome/esp8266.yaml
+<<: !include common/common.yaml
+
+script:
+  - id: countdown_restart
+    then:
+      - globals.set:
+          id: remaining_time
+          value: !lambda return $countdown_duration;
+
+binary_sensor:
+  # Physical Toggle Switch. Monitor for switch position changes internally. Do not expose to Home Assistant.
+  - platform: gpio
+    pin:
+      number: $button_gpio
+    id: button
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
+    on_state:
+      - switch.toggle: relay
+
+      - text_sensor.template.publish:
+          id: trigger
+          state: PHYSICAL
+
+  # Use motion detection to keep fan running.
+  - platform: homeassistant
+    id: motion
+    entity_id: binary_sensor.upstairs_bathroom_motion
+
+globals:
+  - id: remaining_time
+    type: int
+    restore_value: false
+    initial_value: "0"
+
+# Update the countdown timers every 5 seconds.
+interval:
+  - interval: 5s
+    then:
+      # - logger.log: "5 seconds have passed."
+      # - logger.log:
+      #     format: "remaining_time: %s"
+      #     args: ['id(remaining_time)']
+
+      # Humidity threshold trigger.
+      - if:
+          condition:
+            and:
+              - sensor.in_range:
+                  id: humidity_difference
+                  above: $humidity_difference_threshold
+              - switch.is_off: relay
+          then:
+            - switch.turn_on: relay
+
+      # When motion is active, restart the countdown.
+      - if:
+          condition:
+            - binary_sensor.is_on: motion
+          then:
+            - script.execute: countdown_restart
+
+      # Decrement the countdown.
+      - if:
+          condition:
+            and:
+              - lambda: return id(remaining_time) > 0;
+              - switch.is_on: relay
+          then:
+            - globals.set:
+                id: remaining_time
+                value: !lambda return id(remaining_time) -= 5;
+            - sensor.template.publish:
+                id: countdown
+                state: !lambda return id(remaining_time);
+
+          # Time to turn off the relay.
+          else:
+            - switch.turn_off: relay
+
+sensor:
+  # Measure the difference between the house humidity and bathroom humidity from Home Assistant.
+  - platform: homeassistant
+    id: humidity_difference
+    entity_id: sensor.upstairs_bathroom_humidity_difference
+
+  - platform: template
+    id: countdown
+    name: "$project: Countdown"
+    accuracy_decimals: 0
+    icon: "mdi:camera-timer"
+
+switch:
+  - platform: gpio
+    id: relay
+    pin: $relay_gpio
+    on_turn_on:
+      # Start the countdown timer.
+      - script.execute: countdown_restart
+    on_turn_off:
+      - sensor.template.publish:
+          id: countdown
+          state: 0
+
+  - platform: template
+    id: virtual_switch
+    name: $project
+    optimistic: false
+    lambda: |-
+      return (id(relay).state);
+    turn_on_action:
+      - switch.turn_on: relay
+
+      - text_sensor.template.publish:
+          id: trigger
+          state: VIRTUAL
+    turn_off_action:
+      - switch.turn_off: relay
+
+text_sensor:
+  # Trigger states: PHYSICAL, VIRTUAL (UI or Alexa/Google), THRESHOLD
+  - platform: template
+    id: trigger
+    name: "$project: Last Trigger"

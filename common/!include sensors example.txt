@@ -1,2 +1,0 @@
-binary_sensor:
-  - !include common/binary_sensors/status.yaml

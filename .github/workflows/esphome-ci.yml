@@ -1,0 +1,31 @@
+name: ESPHome CI
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: 0 12 * * *
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting configuration from GitHub
+        uses: actions/checkout@v1
+      - name: Running YAMLlint
+        uses: "docker://pipelinecomponents/yamllint:latest"
+        with:
+          args: yamllint .
+
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Getting configuration from GitHub
+        uses: actions/checkout@v1
+      - name: Running MarkdownLint
+        uses: nosborn/github-action-markdown-cli@v1.1.1
+        with:
+          files: .
+          config_file: .markdownlint.yaml
+          ignore_files: config/custom_components
