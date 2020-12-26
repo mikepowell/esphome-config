@@ -2,6 +2,6 @@
 # ESPHome config for ESP8266 devices
 #
 esphome:
-  name: $id
+  name: $device_id
   platform: ESP8266
-  board: esp01_1m
+  board: esp8285
