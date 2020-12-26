@@ -1,0 +1,10 @@
+---
+# Sonoff S31 Power Monitoring Plug
+#
+substitutions:
+  name: Sonoff S31 06
+  id: sonoff_s31_06
+
+  <<: !include common/substitutions/gpio/sonoff.yaml
+
+<<: !include common/templates/sonoff_power_monitor.yaml

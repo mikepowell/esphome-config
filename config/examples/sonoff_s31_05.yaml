@@ -1,0 +1,10 @@
+---
+# Sonoff S31 Power Monitoring Plug
+#
+substitutions:
+  name: Family Room Soundbar
+  id: sonoff_s31_05
+
+  <<: !include common/substitutions/gpio/sonoff.yaml
+
+<<: !include common/templates/sonoff_power_monitor_always_on.yaml

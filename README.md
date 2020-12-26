@@ -10,9 +10,7 @@ I'm just getting my repo set up so there are still a lot of Brian's devices that
 be included here once I'm finished.
 
 Configuration files for my ESP8266 / ESP32 plugs and boards for use with Home Assistant.
-I have made heavy use of `!include` files to limit code duplication. This allows me to
-focus on the advanced code I create for projects like my Bathroom Fan Controller and my
-Irrigation Controller.
+I have made heavy use of `!include` files to limit code duplication.
 
 ## Common configuration files
 
@@ -105,4 +103,3 @@ These are Sonoff POWs and Sonoff S31s. The code attempts to recreate their funct
 [esphome-sonoff-basic]:https://esphome.io/devices/sonoff_basic.html
 [esphome-examples]:https://esphome.io/guides/diy.html
 [config-includes]:https://github.com/AlexMekkering/esphome-config
-[irrigation-with-display]:https://github.com/bruxy70/Irrigation-with-display

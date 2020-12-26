@@ -1,8 +1,0 @@
----
-platform: cse7766
-current:
-  name: $project Current
-voltage:
-  name: $project Voltage
-power:
-  name: $project Power

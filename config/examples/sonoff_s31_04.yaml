@@ -1,0 +1,10 @@
+---
+# Sonoff S31 Power Monitoring Plug
+#
+substitutions:
+  name: Dryer Power Monitor
+  id: sonoff_s31_04
+
+  <<: !include common/substitutions/gpio/sonoff.yaml
+
+<<: !include common/templates/sonoff_power_monitor_always_on.yaml

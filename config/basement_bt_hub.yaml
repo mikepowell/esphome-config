@@ -1,0 +1,44 @@
+# ESP32 Bluetooth Hub
+#
+substitutions:
+  device_id: basement_bt_hub
+  device_name: Basement Bluetooth Hub
+  static_ip: 192.168.10.31
+  log_level: info
+
+<<: !include common/esphome/esp32_wrover.yaml
+
+# Enable bluetooth scanning
+# Scan params from https://flameeyes.blog/2020/11/17/home-assistant-and-cgg1-sensors/
+esp32_ble_tracker:
+  scan_parameters:
+    duration: 300s
+    window: 48ms
+    interval: 64ms
+    active: false
+
+# xiaomi_cgg1 is the ESPHome platform for the ClearGrass e-ink temp/hum sensor.
+sensor:
+  - platform: xiaomi_cgg1
+    mac_address: "58:2D:34:10:72:4E"
+    temperature:
+      name: "Basement office temperature"
+    humidity:
+      name: "Basement office humidity"
+    battery_level:
+      name: "Basement office battery"
+
+# Restart the hub every 4 hours to improve stability.
+time:
+  - platform: homeassistant
+    on_time:
+      - seconds: 0
+        minutes: 0
+        hours: 4
+        days_of_week: MON-SUN
+        then:
+          - switch.toggle: restart_switch
+switch:
+  - platform: restart
+    name: $device_name restart
+    id: restart_switch

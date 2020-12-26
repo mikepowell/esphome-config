@@ -1,4 +1,6 @@
----
+#
+# Wifi signal strength
+#
 platform: wifi_signal
-name: $project WiFi Signal
+name: $name WiFi Signal
 update_interval: 30s

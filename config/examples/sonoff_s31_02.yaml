@@ -1,0 +1,10 @@
+---
+# Sonoff S31 Power Monitoring Plug, Always On
+#
+substitutions:
+  name: Washing Machine Power Monitor
+  id: sonoff_s31_02
+
+  <<: !include common/substitutions/gpio/sonoff.yaml
+
+<<: !include common/templates/sonoff_power_monitor_always_on.yaml

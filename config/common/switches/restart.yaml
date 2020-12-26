@@ -1,3 +1,2 @@
----
 platform: restart
-name: $project Restart
+name: $name Restart

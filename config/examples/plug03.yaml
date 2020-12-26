@@ -1,0 +1,10 @@
+---
+# Luntak brand Tuya Plug
+#
+substitutions:
+  name: Plug03
+  id: plug03
+
+  <<: !include common/substitutions/gpio/tuya_plug.yaml
+
+<<: !include common/templates/plug.yaml

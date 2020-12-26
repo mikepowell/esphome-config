@@ -1,4 +1,6 @@
----
+#
+# ESPHome config for ESP32 wrover devices
+#
 esphome:
   name: $id
   platform: ESP32

@@ -1,4 +1,3 @@
----
 button1_gpio: GPIO0
 button2_gpio: GPIO9
 button3_gpio: GPIO10

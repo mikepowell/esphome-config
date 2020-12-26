@@ -1,4 +1,3 @@
----
 esphome:
   name: ${id}
   platform: ESP8266

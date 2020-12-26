@@ -1,0 +1,10 @@
+---
+# Sonoff Basic Power Module
+#
+substitutions:
+  name: Sonoff Basic 01
+  id: sonoff_basic_01
+
+  <<: !include common/substitutions/gpio/sonoff.yaml
+
+<<: !include common/templates/plug.yaml
