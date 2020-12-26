@@ -7,6 +7,7 @@ substitutions:
   log_level: info
 
 <<: !include common/esphome/esp32_wrover.yaml
+<<: !include common/common.yaml
 
 # Enable bluetooth scanning
 # Scan params from https://flameeyes.blog/2020/11/17/home-assistant-and-cgg1-sensors/

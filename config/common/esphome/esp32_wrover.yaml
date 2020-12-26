@@ -2,6 +2,6 @@
 # ESPHome config for ESP32 wrover devices
 #
 esphome:
-  name: $id
+  name: $device_id
   platform: ESP32
   board: esp-wrover-kit
