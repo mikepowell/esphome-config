@@ -2,7 +2,7 @@
 #
 substitutions:
   device_id: spare_room_ceiling
-  device_name: Spare Room Ceiling Fan
+  device_name: Spare Room Ceiling
   static_ip: 192.168.10.32
   log_level: info
 
@@ -11,7 +11,7 @@ esphome:
   platform: ESP8266
   board: esp8285
   includes:
-    - ifan03.h
+    - "common/ifan03/ifan03.h"
   on_boot:
     priority: 225
     # turn off the light as early as possible
@@ -20,87 +20,54 @@ esphome:
 
 <<: !include common/common.yaml
 
-binary_sensor:
-  - platform: gpio
-    id: ${device_id}_vbutton_light
-    pin:
-      number: GPIO0
-      inverted: True
-    on_press:
-      then:
-        - light.toggle: ${device_id}_light
-
-  - platform: gpio
-    id: ${device_id}_vbutton_relay_1
-    pin:
-      number: GPIO9
-      inverted: True
-    on_press:
-      then:
-        - switch.toggle: ${device_id}_fan_relay1
-        - switch.turn_on: ${device_id}_update_fan_speed
-
-  - platform: gpio
-    id: ${device_id}_vbutton_relay_2
-    pin:
-      number: GPIO10
-      inverted: True
-    on_press:
-      then:
-        - switch.toggle: ${device_id}_fan_relay2
-        - switch.turn_on: ${device_id}_update_fan_speed
-
-  - platform: gpio
-    id: ${device_id}_vbutton_relay_3
-    pin:
-      number: GPIO14
-      inverted: True
-    on_press:
-      then:
-        - switch.toggle: ${device_id}_fan_relay3
-        - switch.turn_on: ${device_id}_update_fan_speed
-
+# Use an ESPHome custom output
 output:
   - platform: custom
     type: float
     outputs:
-      id: ${device_id}_fanoutput
+      id: fan_output
     lambda: |-
       auto fan = new IFan03Output();
       App.register_component(fan);
       return {fan};
 
   - platform: gpio
-    pin: GPIO12
-    id: ${device_id}_lightoutput
+    pin: GPIO9
+    id: light_output
 
 light:
   - platform: binary
-    name: "${device_name} Light"
-    output: ${device_id}_lightoutput
     id: ${device_id}_light
+    name: "${device_name} Light"
+    output: light_output
+
+fan:
+  - platform: speed
+    id: ${device_id}_fan
+    name: "${device_name} Fan"
+    output: fan_output
 
 switch:
   - platform: template
-    id: ${device_id}_update_fan_speed
-    optimistic: True
+    id: update_fan_speed
+    optimistic: true
     turn_on_action:
       then:
         - delay: 200ms
         - if:
             condition:
               and:
-                - switch.is_off: ${device_id}_fan_relay1
-                - switch.is_off: ${device_id}_fan_relay2
-                - switch.is_off: ${device_id}_fan_relay3
+                - switch.is_off: fan_relay_low
+                - switch.is_off: fan_relay_med
+                - switch.is_off: fan_relay_high
             then:
               - fan.turn_off: ${device_id}_fan
         - if:
             condition:
               and:
-                - switch.is_on: ${device_id}_fan_relay1
-                - switch.is_off: ${device_id}_fan_relay2
-                - switch.is_off: ${device_id}_fan_relay3
+                - switch.is_on: fan_relay_low
+                - switch.is_off: fan_relay_med
+                - switch.is_off: fan_relay_high
             then:
               - fan.turn_on:
                   id: ${device_id}_fan
@@ -108,9 +75,9 @@ switch:
         - if:
             condition:
               and:
-                - switch.is_on: ${device_id}_fan_relay1
-                - switch.is_on: ${device_id}_fan_relay2
-                - switch.is_off: ${device_id}_fan_relay3
+                - switch.is_on: fan_relay_low
+                - switch.is_on: fan_relay_med
+                - switch.is_off: fan_relay_high
             then:
               - fan.turn_on:
                   id: ${device_id}_fan
@@ -118,29 +85,94 @@ switch:
         - if:
             condition:
               and:
-                - switch.is_on: ${device_id}_fan_relay1
-                - switch.is_off: ${device_id}_fan_relay2
-                - switch.is_on: ${device_id}_fan_relay3
+                - switch.is_on: fan_relay_low
+                - switch.is_off: fan_relay_med
+                - switch.is_on: fan_relay_high
             then:
               - fan.turn_on:
                   id: ${device_id}_fan
                   speed: HIGH
-        - switch.turn_off: ${device_id}_update_fan_speed
+        - switch.turn_off: update_fan_speed
 
   - platform: gpio
-    pin: GPIO5
-    id: ${device_id}_fan_relay1
+    id: fan_relay_low
+    pin: GPIO14
 
   - platform: gpio
-    pin: GPIO4
-    id: ${device_id}_fan_relay2
+    id: fan_relay_med
+    pin: GPIO12
 
   - platform: gpio
+    id: fan_relay_high
     pin: GPIO15
-    id: ${device_id}_fan_relay3
 
-fan:
-  - platform: speed
-    output: ${device_id}_fanoutput
-    id: ${device_id}_fan
-    name: "${device_name} Fan"
+#
+# RF remote control support
+#
+remote_receiver:
+  pin: GPIO3
+  dump: raw
+
+binary_sensor:
+  - platform: remote_receiver
+    name: "${device_name} Remote Fan Off"
+    id: ${device_id}_remote_fan_off
+    raw:
+      code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 104, -103, 104, -104, 103, -104, 105, -102, 104, -725, 104, -311, 103, -518, 104, -933, 103, -104, 104, -725, 104, -932, 104, -207, 207, -519]
+    on_release:
+      then:
+        - fan.turn_off: ${device_id}_fan
+
+  - platform: remote_receiver
+    name: "${device_name} Remote Fan Low"
+    id: ${device_id}_remote_fan_low
+    raw:
+      code: [-207, 104, -104, 103, -104, 104, -103, 207, -104, 104, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -726, 103, -312, 103, -518, 104, -933, 103, -104, 104, -725, 104, -103, 104, -726, 103, -104, 311, -518]
+    on_release:
+      then:
+        - fan.turn_on:
+            id: ${device_id}_fan
+            speed: LOW
+
+  - platform: remote_receiver
+    name: "${device_name} Remote Fan Medium"
+    id: ${device_id}_remote_fan_med
+    raw:
+      code: [-208, 103, -104, 104, -103, 104, -103, 208, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -104, 103, -726, 104, -310, 104, -518, 104, -933, 103, -104, 104, -725, 104, -207, 104, -622, 103, -416, 102, -415]
+    on_release:
+      then:
+        - fan.turn_on:
+            id: ${device_id}_fan
+            speed: MEDIUM
+
+  - platform: remote_receiver
+    name: "${device_name} Remote Fan High"
+    id: ${device_id}_remote_fan_high
+    raw:
+      code: [-207, 104, -104, 103, -104, 104, -103, 208, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -104, 103, -726, 104, -311, 104, -518, 103, -934, 103, -103, 104, -726, 103, -104, 207, -622, 104, -103, 104, -207, 104, -415]
+    on_release:
+      then:
+        - fan.turn_on:
+            id: ${device_id}_fan
+            speed: HIGH
+
+  # top left button
+  - platform: remote_receiver
+    name: "${device_name} Remote Fan Light"
+    id: ${device_id}_remote_light_toggle
+    raw:
+      code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 104, -103, 104, -103, 104, -104, 103, -104, 104, -725, 104, -311, 103, -518, 104, -933, 103, -104, 103, -726, 103, -311, 104, -518, 104, -207, 104, -103, 104, -414]
+    on_release:
+      then:
+        - light.toggle: ${device_id}_light
+
+  # top right button
+  - platform: remote_receiver
+    name: "${device_name} Spare Button"
+    id: ${device_id}_remote_spare_button
+    raw:
+      code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 103, -104, 104, -103, 104, -103, 104, -104, 107, -721, 105, -206, 207, -518, 105, -931, 104, -104, 103, -725, 104, -104, 103, -725, 104, -104, 103, -207, 104, -414]
+    on_release:
+      then:
+        # Just making this button toggle the light for now...
+        - light.toggle: ${device_id}_light

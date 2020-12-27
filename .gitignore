@@ -1,1 +1,7 @@
-config/secrets.yaml
+/config/.esphome/
+/config/**/.pioenvs/
+/config/**/.piolibdeps/
+/config/**/lib/
+/config/**/src/
+/config/**/platformio.ini
+/config/secrets.yaml
