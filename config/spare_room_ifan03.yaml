@@ -34,6 +34,7 @@ output:
   - platform: gpio
     pin: GPIO9
     id: light_output
+    inverted: true
 
 light:
   - platform: binary
