@@ -4,7 +4,7 @@ substitutions:
   device_id: basement_bt_hub
   device_name: Basement Bluetooth Hub
   static_ip: 192.168.10.31
-  log_level: info
+  log_level: verbose
 
 <<: !include common/esphome/esp32_wrover.yaml
 <<: !include common/common.yaml
@@ -29,6 +29,15 @@ sensor:
     battery_level:
       name: "Basement office battery"
 
+  - platform: xiaomi_cgg1
+    mac_address: "58:2D:34:10:70:FC"
+    temperature:
+      name: "Upstairs hall temperature"
+    humidity:
+      name: "Upstairs hall humidity"
+    battery_level:
+      name: "Upstairs hall battery"
+    
 # Restart the hub every 4 hours to improve stability.
 time:
   - platform: homeassistant
