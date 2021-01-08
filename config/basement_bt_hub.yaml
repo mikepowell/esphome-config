@@ -38,6 +38,24 @@ sensor:
     battery_level:
       name: "Upstairs hall battery"
     
+  - platform: xiaomi_cgg1
+    mac_address: "58:2D:34:10:70:1A"
+    temperature:
+      name: "Front room temperature"
+    humidity:
+      name: "Front room humidity"
+    battery_level:
+      name: "Front room battery"
+
+  - platform: xiaomi_cgg1
+    mac_address: "58:2D:34:10:70:F0"
+    temperature:
+      name: "Basement main temperature"
+    humidity:
+      name: "Basement main humidity"
+    battery_level:
+      name: "Basement main battery"
+    
 # Restart the hub every 4 hours to improve stability.
 time:
   - platform: homeassistant
