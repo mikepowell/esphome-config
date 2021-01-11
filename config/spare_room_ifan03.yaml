@@ -119,6 +119,7 @@ binary_sensor:
     name: "${device_name} Remote Fan Off"
     id: ${device_id}_remote_fan_off
     raw:
+      # yamllint disable-line rule:line-length
       code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 104, -103, 104, -104, 103, -104, 105, -102, 104, -725, 104, -311, 103, -518, 104, -933, 103, -104, 104, -725, 104, -932, 104, -207, 207, -519]
     on_release:
       then:
@@ -128,6 +129,7 @@ binary_sensor:
     name: "${device_name} Remote Fan Low"
     id: ${device_id}_remote_fan_low
     raw:
+      # yamllint disable-line rule:line-length
       code: [-207, 104, -104, 103, -104, 104, -103, 207, -104, 104, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -726, 103, -312, 103, -518, 104, -933, 103, -104, 104, -725, 104, -103, 104, -726, 103, -104, 311, -518]
     on_release:
       then:
@@ -139,6 +141,7 @@ binary_sensor:
     name: "${device_name} Remote Fan Medium"
     id: ${device_id}_remote_fan_med
     raw:
+      # yamllint disable-line rule:line-length
       code: [-208, 103, -104, 104, -103, 104, -103, 208, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -104, 103, -726, 104, -310, 104, -518, 104, -933, 103, -104, 104, -725, 104, -207, 104, -622, 103, -416, 102, -415]
     on_release:
       then:
@@ -150,6 +153,7 @@ binary_sensor:
     name: "${device_name} Remote Fan High"
     id: ${device_id}_remote_fan_high
     raw:
+      # yamllint disable-line rule:line-length
       code: [-207, 104, -104, 103, -104, 104, -103, 208, -103, 104, -104, 103, -104, 104, -103, 104, -104, 103, -104, 103, -726, 104, -311, 104, -518, 103, -934, 103, -103, 104, -726, 103, -104, 207, -622, 104, -103, 104, -207, 104, -415]
     on_release:
       then:
@@ -162,6 +166,7 @@ binary_sensor:
     name: "${device_name} Remote Fan Light"
     id: ${device_id}_remote_light_toggle
     raw:
+      # yamllint disable-line rule:line-length
       code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 104, -103, 104, -103, 104, -104, 103, -104, 104, -725, 104, -311, 103, -518, 104, -933, 103, -104, 103, -726, 103, -311, 104, -518, 104, -207, 104, -103, 104, -414]
     on_release:
       then:
@@ -172,6 +177,7 @@ binary_sensor:
     name: "${device_name} Spare Button"
     id: ${device_id}_remote_spare_button
     raw:
+      # yamllint disable-line rule:line-length
       code: [-207, 104, -103, 104, -104, 103, -104, 207, -104, 103, -104, 103, -104, 104, -103, 104, -103, 104, -104, 107, -721, 105, -206, 207, -518, 105, -931, 104, -104, 103, -725, 104, -104, 103, -725, 104, -104, 103, -207, 104, -414]
     on_release:
       then:

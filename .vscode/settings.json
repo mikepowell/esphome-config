@@ -1,11 +1,5 @@
 {
-  "cSpell.ignoreWords": [
-    "esp",
-    "espressif",
-    "logd",
-    "luntak",
-    "pioenvs",
-    "sonoff",
-    "tuya"
-  ]
+  "files.associations": {
+    "*.yaml": "home-assistant"
+  }
 }
